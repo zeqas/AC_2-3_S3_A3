@@ -54,11 +54,11 @@ header {
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
 }
 
-.card img{
+.card img {
   height: 180px;
 }
 
-.card-title{
+.card-title {
   overflow:hidden;
   text-overflow:ellipsis;
   white-space:nowrap;
@@ -99,3 +99,4 @@ header {
   }
   
 }
+

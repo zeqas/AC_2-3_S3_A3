@@ -8,6 +8,7 @@
   <title>Document</title>
 
   <link rel="stylesheet" href="/stylesheets/bootstrap.css">
+  <link rel="stylesheet" href="/stylesheets/style.css">
 </head>
 <body>
   <header>
@@ -25,24 +26,8 @@
     <div class="banner"></div>
   </header>
   
-  <!-- search bar -->
-  <div class="container search-bar">
-    <div class="search-bar-outer">
-      <div class="search-bar-inner">
-        <form action="/search">
-          <h4 class="mb-2">尋找餐廳：</h4>
-          <div class="input-group">
-            <input type="text" name="keyword" class="form-control" placeholder="輸入餐廳、分類" aria-label="Restaurant Name..."
-              value="" aria-describedby="search-button">
-            <div class="input-group-append">
-              <button class="btn btn-major" type="submit" id="search-button"><i class="fas fa-search"></i></button>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-
+  {{{ body }}}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/js/all.min.js"></script>
   <script src="/javascripts/jquery-3.3.1.js"></script>
   <script src="/javascripts/popper.js"></script>
   <script src="/javascripts/bootstrap.js"></script>
