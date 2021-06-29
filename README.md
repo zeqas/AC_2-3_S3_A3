@@ -39,11 +39,11 @@
 
 1. 在終端機輸入指令 Clone 此專案至電腦
 ```
-git clone https://github.com/zeqas/AC_2-3_S3_A3.git
+git clone https://github.com/zeqas/restaurant_List_S3A3.git
 ```
 2. 進入專案目錄
 ```
-cd AC_2-3_S3_A3
+cd restaurant_List_S3A3
 ```
 3. 安裝相關套件
 ```
