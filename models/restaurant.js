@@ -8,8 +8,41 @@ const Schema = mongoose.Schema
 
 // Q2 資料結構 ?
 const restaurantSchema = new Schema({
-  results: {
-    
+  name: {
+    type: String,
+    required: true
+  },
+  name_en: {
+    type: String
+  },
+  category: {
+    type: String,
+    required: true
+  },
+  image: {
+    type: String,
+    required: true
+  },
+  location: {
+    type: String,
+    required: true
+  },
+  phone: {
+    type: String,
+    required: true
+  },
+  google_map: {
+    type: String,
+    required: true
+  },
+  rating: {
+    type: Number,
+    required: true
+  },
+  description: {
+    type: String,
+    required: true
   }
 })
-module.exports = mongoose.model('Todo', todoSchema)
+
+module.exports = mongoose.model('Restaurant', restaurantSchema)
