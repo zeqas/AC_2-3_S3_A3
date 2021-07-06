@@ -46,6 +46,18 @@ app.get('/search', (req, res) => {
   res.render('index', { restaurants : restaurants, keyword : keyword})
 })
 
+// create
+app.post('/restaurants', (req, res) => {
+  const { name, name_en, category, image, location, phone, google_map, rating, description } = req.body // 拿出表單裡的所有 req.body 資料
+
+  if (!name || !category || !image || !location || !phone || !google_map || !rating || !description) {
+    return res.redirect('/restaurants/new')
+  } // 如果有增加任一個欄位(除了英文名稱)的資料，就導回 new
+  return Restaurant.create({ name, name_en, category, image, location, phone, google_map, rating, description })  // 存入資料庫
+    .then(() => res.redirect('/')) // 新增完成後導回首頁
+    .catch(error => console.log(error))
+})
+
 app.listen(port, () => {
   console.log(`Express is listening on localhost:${port}`)
 })
