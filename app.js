@@ -28,6 +28,7 @@ app.get('/', (req, res) => {
     .catch((error) => console.error(error))
 })
 
+// detail
 app.get('/restaurants/:restaurant_id', (req, res) => {
   const restaurant = Restaurant.results.find(restaurant => restaurant.id.toString() === req.params.restaurant_id)
   res.render('show', { restaurant : restaurant})
@@ -35,7 +36,7 @@ app.get('/restaurants/:restaurant_id', (req, res) => {
 
 // search
 app.get('/search', (req, res) => {
-  const keyword = req.query.keyword
+  const keyword = req.query.keyword.trim().toLowerCase()
   const restaurants = Restaurant.results.filter(restaurant => {
     return restaurant.name_en.toLocaleLowerCase().includes(keyword.toLocaleLowerCase()) || 
     restaurant.name.toLocaleLowerCase().includes(keyword.toLocaleLowerCase()) || 
