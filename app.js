@@ -29,9 +29,13 @@ app.get('/', (req, res) => {
 })
 
 // detail
-app.get('/restaurants/:restaurant_id', (req, res) => {
-  const restaurant = Restaurant.results.find(restaurant => restaurant.id.toString() === req.params.restaurant_id)
-  res.render('show', { restaurant : restaurant})
+app.get('/restaurants/:id', (req, res) => {
+  const id = req.params.id
+  // if (!mongoose.Types.ObjectId.isValid(id)) return res.redirect('back')
+  return Restaurant.findById(id)
+    .lean()
+    .then((restaurant) => res.render('detail', { restaurant }))
+    .catch((error) => console.error(error))
 })
 
 // search
