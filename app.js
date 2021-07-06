@@ -22,7 +22,10 @@ app.use(express.static('public'))
 
 // index
 app.get('/', (req, res) => {
-  res.render('index', { restaurants: Restaurant.results})
+  Restaurant.find()
+    .lean()
+    .then((restaurants) => res.render('index', { restaurants }))
+    .catch((error) => console.error(error))
 })
 
 app.get('/restaurants/:restaurant_id', (req, res) => {
