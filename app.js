@@ -17,26 +17,16 @@ const db = mongoose.connection
 db.on('error', () => { console.log('mongodb error!') })
 db.once('open', () => { console.log('mongodb connected!') })
 
-// middleware
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
+// 設定每一筆請求都會先以 methodOverride 進行前置處理
 app.use(methodOverride('_method'))
-
 
 // index
 app.get('/', (req, res) => {
   Restaurant.find()
     .lean()
     .then((restaurants) => res.render('index', { restaurants }))
-    .catch((error) => console.error(error))
-})
-
-// detail
-app.get('/restaurants/:id', (req, res) => {
-  const id = req.params.id
-  return Restaurant.findById(id)
-    .lean()
-    .then((restaurant) => res.render('detail', { restaurant }))
     .catch((error) => console.error(error))
 })
 
@@ -65,6 +55,15 @@ app.post('/restaurants', (req, res) => {
     .catch(error => console.log(error))
 })
 
+// detail
+app.get('/restaurants/:id', (req, res) => {
+  const id = req.params.id
+  return Restaurant.findById(id)
+    .lean()
+    .then((restaurant) => res.render('detail', { restaurant }))
+    .catch((error) => console.error(error))
+})
+
 // edit 
 app.get('/restaurants/:id/edit', (req, res) => {
   const id = req.params.id
@@ -74,7 +73,7 @@ app.get('/restaurants/:id/edit', (req, res) => {
     .catch(error => console.error(error))
 })
 
-app.post('/restaurants/:id/edit', (req, res) => {
+app.put('/restaurants/:id', (req, res) => {
   const id = req.params.id
   const updatedRestaurant = req.body
   return Restaurant.findById(id)
@@ -95,10 +94,9 @@ app.post('/restaurants/:id/edit', (req, res) => {
 })
 
 // delete 
-app.post('/restaurants/:id', (req, res) => {
+app.delete('/restaurants/:id', (req, res) => {
   const id = req.params.id
-  return Restaurant.findById(id)
-    .then((restaurant) => restaurant.remove())
+  return Restaurant.findByIdAndDelete(id)
     .then(() => res.redirect('/'))
     .catch(error => console.error(error))
 })
