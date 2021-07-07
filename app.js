@@ -63,6 +63,37 @@ app.post('/restaurants', (req, res) => {
     .catch(error => console.log(error))
 })
 
+// edit 
+app.get('/restaurants/:id/edit', (req, res) => {
+  const id = req.params.id
+  // if (!mongoose.Types.ObjectId.isValid(id)) return res.redirect('back')
+  return Restaurant.findById(id)
+    .lean()
+    .then(restaurant => res.render('edit', { restaurant }))
+    .catch(error => console.error(error))
+})
+
+app.post('/restaurants/:id', (req, res) => {
+  const id = req.params.id
+  // if (!mongoose.Types.ObjectId.isValid(id)) return res.redirect('back')
+  const modifiedRestaurant = req.body
+  return Restaurant.findById(id)
+    .then(restaurant => {
+      restaurant.name = modifiedRestaurant.name
+      restaurant.name_en = modifiedRestaurant.name_en
+      restaurant.category = modifiedRestaurant.category
+      restaurant.image = modifiedRestaurant.image
+      restaurant.location = modifiedRestaurant.location
+      restaurant.phone = modifiedRestaurant.phone
+      restaurant.google_map = modifiedRestaurant.google_map
+      restaurant.rating = modifiedRestaurant.rating
+      restaurant.description = modifiedRestaurant.description
+      return restaurant.save()
+    })
+    .then(() => res.redirect(`/restaurants/${id}`))
+    .catch(error => console.error(error))
+})
+
 app.listen(port, () => {
   console.log(`Express is listening on localhost:${port}`)
 })
