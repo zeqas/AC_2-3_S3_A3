@@ -1,6 +1,7 @@
 const express = require('express')
 const exphbs = require('express-handlebars')
 const Restaurant = require('./models/restaurant')
+const methodOverride = require('method-override')
 
 const app = express()
 const port = 3000
@@ -19,6 +20,8 @@ db.once('open', () => { console.log('mongodb connected!') })
 // middleware
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
+app.use(methodOverride('_method'))
+
 
 // index
 app.get('/', (req, res) => {
@@ -31,7 +34,6 @@ app.get('/', (req, res) => {
 // detail
 app.get('/restaurants/:id', (req, res) => {
   const id = req.params.id
-  // if (!mongoose.Types.ObjectId.isValid(id)) return res.redirect('back')
   return Restaurant.findById(id)
     .lean()
     .then((restaurant) => res.render('detail', { restaurant }))
@@ -66,31 +68,38 @@ app.post('/restaurants', (req, res) => {
 // edit 
 app.get('/restaurants/:id/edit', (req, res) => {
   const id = req.params.id
-  // if (!mongoose.Types.ObjectId.isValid(id)) return res.redirect('back')
   return Restaurant.findById(id)
     .lean()
     .then(restaurant => res.render('edit', { restaurant }))
     .catch(error => console.error(error))
 })
 
-app.post('/restaurants/:id', (req, res) => {
+app.post('/restaurants/:id/edit', (req, res) => {
   const id = req.params.id
-  // if (!mongoose.Types.ObjectId.isValid(id)) return res.redirect('back')
-  const modifiedRestaurant = req.body
+  const updatedRestaurant = req.body
   return Restaurant.findById(id)
     .then(restaurant => {
-      restaurant.name = modifiedRestaurant.name
-      restaurant.name_en = modifiedRestaurant.name_en
-      restaurant.category = modifiedRestaurant.category
-      restaurant.image = modifiedRestaurant.image
-      restaurant.location = modifiedRestaurant.location
-      restaurant.phone = modifiedRestaurant.phone
-      restaurant.google_map = modifiedRestaurant.google_map
-      restaurant.rating = modifiedRestaurant.rating
-      restaurant.description = modifiedRestaurant.description
+      restaurant.name = updatedRestaurant.name
+      restaurant.name_en = updatedRestaurant.name_en
+      restaurant.category = updatedRestaurant.category
+      restaurant.image = updatedRestaurant.image
+      restaurant.location = updatedRestaurant.location
+      restaurant.phone = updatedRestaurant.phone
+      restaurant.google_map = updatedRestaurant.google_map
+      restaurant.rating = updatedRestaurant.rating
+      restaurant.description = updatedRestaurant.description
       return restaurant.save()
     })
     .then(() => res.redirect(`/restaurants/${id}`))
+    .catch(error => console.error(error))
+})
+
+// delete 
+app.post('/restaurants/:id', (req, res) => {
+  const id = req.params.id
+  return Restaurant.findById(id)
+    .then((restaurant) => restaurant.remove())
+    .then(() => res.redirect('/'))
     .catch(error => console.error(error))
 })
 
