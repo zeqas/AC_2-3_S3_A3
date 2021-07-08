@@ -37,12 +37,35 @@
       <img class="rounded mx-auto d-block mb-4 w-100"
         src="{{ restaurant.image }}" alt="{{ restaurant.name }}"
         style="max-width: 600px;">
-      <div class="restaurant-button-group m-2 mx-auto d-flex container justify-content-end align-items-center">
-        <a class="btn btn-warning" href="/restaurants/{{ restaurant._id }}/edit" role="button">Edit</a>
+      <div class="restaurant-button-group d-flex container justify-content-end align-items-center p-0 mb-3">
+        <a class="btn btn-warning m-1" href="/restaurants/{{ restaurant._id }}/edit" role="button">Edit</a>
         <a class="btn btn-primary" href="/" role="button">Back</a>
-        <form action="/restaurants/{{ restaurant._id }}/delete" method="POST" style="display: inline;">
-          <button type="submit">delete</button>
-        </form>
+        <button type="button" class="btn btn-danger m-1 deleteButton" data-toggle="modal"
+          data-target="#deleteModal{{ restaurant._id }}">Delete</button>
+      </div>
+
+      <!-- Modal -->
+      <div class="modal fade" id="deleteModal{{ restaurant._id }}" tabindex="-1" aria-labelledby="deleteModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="deleteModalLabel">這是一個簡單的小提醒</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              確定要刪除 {{ restaurant.name }} 嗎？
+            </div>
+            <div class="modal-footer">
+              <form action="/restaurants/{{ restaurant._id }}/delete" method="POST">
+                <button type="submit" class="btn btn-danger">是的，我確定</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">並沒有</button>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
