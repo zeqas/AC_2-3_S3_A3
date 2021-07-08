@@ -14,8 +14,8 @@ mongoose.connect('mongodb://localhost/restaurant_list', { useNewUrlParser: true,
 
 const db = mongoose.connection
 
-db.on('error', () => { console.log('mongodb error!') })
-db.once('open', () => { console.log('mongodb connected!') })
+db.on('error', () => { console.log('mongoDB error!') })
+db.once('open', () => { console.log('mongoDB connected!') })
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
@@ -31,19 +31,32 @@ app.get('/', (req, res) => {
 })
 
 // search
-app.get('/search', (req, res) => {
+app.get('/restaurants/search', (req, res) => {
   const keyword = req.query.keyword.trim().toLowerCase()
-  const restaurants = Restaurant.results.filter(restaurant => {
-    return restaurant.name_en.toLocaleLowerCase().includes(keyword.toLocaleLowerCase()) || 
-    restaurant.name.toLocaleLowerCase().includes(keyword.toLocaleLowerCase()) || 
-    restaurant.category.toLocaleLowerCase().includes(keyword.toLocaleLowerCase())
 
-  })
-
-  res.render('index', { restaurants : restaurants, keyword : keyword})
+  Restaurant.find()
+    .lean()
+    .then(restaurants => {
+      if (keyword) {
+        restaurants = restaurants.filter(restaurant =>
+          restaurant.name_en.toLocaleLowerCase().includes(keyword.toLocaleLowerCase()) ||
+          restaurant.name.toLocaleLowerCase().includes(keyword.toLocaleLowerCase()) ||
+          restaurant.category.toLocaleLowerCase().includes(keyword))
+      }
+      if (restaurants.length === 0) {
+        const error = '找不到符合搜尋的結果!'
+        return res.render('index', { error })
+      }
+      res.render('index', { restaurants })
+    })
+  .catch(error => console.log(error))
 })
 
 // create
+app.get('/restaurants/new', (req, res) => {
+  res.render('new')
+})
+
 app.post('/restaurants', (req, res) => {
   const { name, name_en, category, image, location, phone, google_map, rating, description } = req.body // 拿出表單裡的所有 req.body 資料
 
@@ -94,9 +107,10 @@ app.put('/restaurants/:id', (req, res) => {
 })
 
 // delete 
-app.delete('/restaurants/:id', (req, res) => {
+app.post('/restaurants/:id/delete', (req, res) => {
   const id = req.params.id
-  return Restaurant.findByIdAndDelete(id)
+  return Restaurant.findById(id)
+    .then((restaurant) => restaurant.remove())
     .then(() => res.redirect('/'))
     .catch(error => console.error(error))
 })
