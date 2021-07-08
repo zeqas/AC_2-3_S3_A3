@@ -24,6 +24,17 @@
 ### 其他功能
 按下左上的「我的餐廳清單」會返回首頁
 
+## v2.0 
+
+### 新增CRUD功能
+
+1. 使用者可以新增一家餐廳
+2. 使用者可以瀏覽一家餐廳的詳細資訊
+3. 使用者可以瀏覽全部所有餐廳
+4. 使用者可以依據餐廳名稱與類別搜尋特定餐廳
+5. 使用者可以修改一家餐廳的資訊
+6. 使用者可以刪除一家餐廳
+
 ---
 
 ## 環境建置
@@ -32,6 +43,7 @@
 - 框架 Express.js v4.17.1
 - 模板引擎 Express-handlebars v5.3.2
 - 實用套件 Nodemon v2.0.7
+- 重構套件 Method-override v3.0.0
 
 ---
 
@@ -49,10 +61,14 @@ cd restaurant_List_S3A3
 ```
 npm install
 ```
-4. 啟動專案
+4. 加入種子資料
+```
+npm run seed
+```
+5. 啟動專案
 ```
 npm run dev
 ```
-5. 出現以下訊息後，即可在 http://localhost:3000 開始使用
+6. 出現以下訊息後，即可在 http://localhost:3000 開始使用
 ```
 Express is listening on localhost:3000
