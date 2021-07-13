@@ -26,6 +26,7 @@ app.use(methodOverride('_method'))
 app.get('/', (req, res) => {
   Restaurant.find()
     .lean()
+    .sort({ _id: 'asc' }) // 新增這裡：根據 _id 升冪排序
     .then((restaurants) => res.render('index', { restaurants }))
     .catch((error) => console.error(error))
 })
