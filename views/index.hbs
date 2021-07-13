@@ -63,7 +63,7 @@
             確定要刪除 {{ this.name }} 嗎？
           </div>
           <div class="modal-footer">
-            <form action="/restaurants/{{ this._id }}/delete" method="POST">
+            <form action="/restaurants/{{ this._id }}?_method=DELETE" method="POST">
               <button type="submit" class="btn btn-danger">是的，我確定</button>
               <button type="button" class="btn btn-primary" data-dismiss="modal">並沒有</button>
             </form>
