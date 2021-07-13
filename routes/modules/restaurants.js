@@ -3,11 +3,34 @@ const router = express.Router()
 
 const Restaurant = require('../../models/restaurant')
 
+// search
+router.get('/search', (req, res) => {
+  const keyword = req.query.keyword.trim().toLowerCase()
+
+  Restaurant.find()
+    .lean()
+    .then(restaurants => {
+      if (keyword) {
+        restaurants = restaurants.filter(restaurant =>
+          restaurant.name_en.toLocaleLowerCase().includes(keyword.toLocaleLowerCase()) ||
+          restaurant.name.toLocaleLowerCase().includes(keyword.toLocaleLowerCase()) ||
+          restaurant.category.toLocaleLowerCase().includes(keyword))
+      }
+      if (restaurants.length === 0) {
+        const error = '找不到符合搜尋的結果!'
+        return res.render('index', { error })
+      }
+      res.render('index', { restaurants })
+    })
+    .catch(error => console.log(error))
+})
+
+// create
 router.get('/new', (req, res) => {
   return res.render('new')
 })
 
-router.post('/restaurants', (req, res) => {
+router.post('/', (req, res) => {
   const { name, name_en, category, image, location, phone, google_map, rating, description } = req.body // 拿出表單裡的所有 req.body 資料
 
   if (!name || !category || !image || !location || !phone || !google_map || !rating || !description) {
@@ -19,7 +42,7 @@ router.post('/restaurants', (req, res) => {
 })
 
 // detail
-router.get('/restaurants/:id', (req, res) => {
+router.get('/:id', (req, res) => {
   const id = req.params.id
   return Restaurant.findById(id)
     .lean()
@@ -36,7 +59,7 @@ router.get('/:id/edit', (req, res) => {
     .catch(error => console.log(error))
 })
 
-router.put('/restaurants/:id', (req, res) => {
+router.put('/:id', (req, res) => {
   const id = req.params.id
   const updatedRestaurant = req.body
   return Restaurant.findById(id)
@@ -56,7 +79,7 @@ router.put('/restaurants/:id', (req, res) => {
     .catch(error => console.error(error))
 })
 
-router.delete('/restaurants/:id/delete', (req, res) => {
+router.delete('/:id', (req, res) => {
   const id = req.params.id
   return Restaurant.findById(id)
     .then(restaurant => restaurant.remove())
