@@ -1,8 +1,9 @@
 <!-- search bar -->
 <div class="container search-bar">
   <div class="search-bar-outer">
-    <div class="search-bar-inner">
-      <form action="/restaurants/search" method="GET">
+    <form action="/restaurants/search" method="GET" class="row">
+      
+      <div class="search-bar-inner col-md-6">
         <h4 class="mb-2">尋找餐廳：</h4>
         <div class="input-group">
           <input type="text" name="keyword" class="form-control" placeholder="請輸入餐廳或分類" aria-label="Restaurant Name..."
@@ -11,8 +12,21 @@
             <button class="btn btn-major" type="submit" id="search-button"><i class="fas fa-search"></i></button>
           </div>
         </div>
-      </form>
-    </div>
+      </div>
+
+      <div class="search-bar-inner col-md-6 d-flex">
+        <div class="input-group align-items-end">
+          <select class="form-control" name="sortOption" id="sortOption" onchange="submit()">
+            <option value="">選擇排序方式</option>
+            {{#each sortData}}
+            <option value="{{this.value}}" {{#isEqual this.value ../currentSortOption}} selected {{/isEqual}}>{{this.option}}
+            </option>
+            {{/each}}
+          </select>
+        </div>
+      </div>
+
+    </form>
   </div>
 </div>
 

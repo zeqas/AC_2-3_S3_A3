@@ -1,0 +1,18 @@
+{
+  "nameEnAsc": {
+    "value": "nameEnAsc",
+    "option": "A -> Z"
+  },
+  "nameEnDesc": {
+    "value": "nameEnDesc",
+    "option": "Z -> A"
+  },
+  "category": {
+    "value": "category",
+    "option": "類別"
+  },
+  "location": {
+    "value": "location",
+    "option": "地區"
+  }
+}

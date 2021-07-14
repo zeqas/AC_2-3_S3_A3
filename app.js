@@ -8,12 +8,15 @@ require('./config/mongoose')
 const app = express()
 const port = 3000
 
-app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
+app.engine('hbs', exphbs({ 
+  defaultLayout: 'main', 
+  extname: '.hbs', 
+  helpers: require('./controller/handlebarHelpers')
+}))
 app.set('view engine', 'hbs')
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
-// 設定每一筆請求都會先以 methodOverride 進行前置處理
 app.use(methodOverride('_method'))
 
 app.use(routes)

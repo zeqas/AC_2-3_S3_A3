@@ -3,6 +3,8 @@ const restaurantList = data.results // 載入JSON資料
 
 const Restaurant = require('../restaurant') // 載入 model
 
+const db = require('../../config/mongoose')
+
 db.once('open', () => {
   console.log('mongodb connected!')
   // 建立資料，定義內容
