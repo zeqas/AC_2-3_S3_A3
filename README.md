@@ -51,7 +51,7 @@
 
 1. 在終端機輸入指令 Clone 此專案至電腦
 ```
-git clone https://github.com/zeqas/restaurant_List_S3A3.git
+git clone https://github.com/zeqas/restaurant_List.git
 ```
 2. 進入專案目錄
 ```
