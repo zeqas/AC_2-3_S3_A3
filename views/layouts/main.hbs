@@ -16,35 +16,31 @@
 
     <link rel="stylesheet" href="/stylesheets/style.css">
   </head>
-  <body>
-    <header>
-      <!-- navigation -->
-      <nav class="navbar navbar-light bg-light">
-        <div class="container">
-          <a class="navbar-brand" href="/">
-            {{#if isAuthenticated}}
-            <img 
-              src="https://assets-lighthouse.s3.amazonaws.com/uploads/image/file/6227/restaurant-list-logo.png"
-              width="30" 
-              height="30" 
-              class="d-inline-block align-top" 
-              alt="我的餐廳清單"
-            />
-            {{ user.name}}'s {{/if}}
-            餐廳清單
-          </a>
-          
+
+  <header>
+    <!-- navigation -->
+    <nav class="navbar navbar-light bg-light">
+      <div class="container">
+        <a class="navbar-brand" href="/">
           {{#if isAuthenticated}}
-            <a href="/users/logout" class="btn btn-outline-light">Logout</a>
-          {{else}}
-            <a href="/users/login" class="btn btn-outline-light">Login</a>
-          {{/if}}
-        </div>
-      </nav>
-    
-      <div class="banner"></div>
-    </header>
-    
+          <img src="https://assets-lighthouse.s3.amazonaws.com/uploads/image/file/6227/restaurant-list-logo.png"
+            width="30" height="30" class="d-inline-block align-top" alt="我的餐廳清單" />
+          {{ user.name}}'s {{/if}}
+          餐廳清單
+        </a>
+  
+        {{#if isAuthenticated}}
+        <a href="/users/logout" class="btn btn-outline-primary">Logout</a>
+        {{else}}
+        <a href="/users/login" class="btn btn-outline-primary">Login</a>
+        {{/if}}
+      </div>
+    </nav>
+  
+    <div class="banner"></div>
+  </header>
+
+  <body>
     {{{ body }}}
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/js/all.min.js"></script>

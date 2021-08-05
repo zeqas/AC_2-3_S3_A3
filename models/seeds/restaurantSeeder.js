@@ -14,46 +14,41 @@ const SEED_USERS = [
     name: 'user1',
     email: 'user1@example.com',
     password: '12345678',
-    ownedRestaurants: restaurantList.slice(0, 3)
+    ownedRestaurants: [1, 2, 3]
   },
   {
     name: 'user2',
     email: 'user2@example.com',
     password: '12345678',
-    ownedRestaurants: restaurantList.slice(3, 6)
+    ownedRestaurants: [4, 5, 6]
   }
 ]
 
 db.once('open', () => {
-  // 將 SEED_USERS 轉換為陣列，並且遍例
-  return Promise.all(SEED_USERS.map( user => {
-    const owned = user.ownedRestaurants
-    
-    User.create({
-      name: SEED_USERS.name,
-      email: SEED_USERS.email,
-      password: bcrypt.hashSync(SEED_USERS.password, bcrypt.genSaltSync(10))
-    })
-      .then(user => {
-        
-        return Promise.all(owned.map(async restaurant => {
-          await Restaurant.create({
-            name: restaurant.name,
-            name_en: restaurant.name_en,
-            category: restaurant.category,
-            image: restaurant.image,
-            location: restaurant.location,
-            phone: restaurant.phone,
-            google_map: restaurant.google_map,
-            rating: restaurant.rating,
-            description: restaurant.description,
-            userId: user._id
-          })
-        }))
+  // 將 SEED_USERS 的內容轉換為陣列，並且遍例
+  Promise.all(Array.from(SEED_USERS, (seedUser, i) => {
+    const owned = seedUser.ownedRestaurants
+    return bcrypt
+      .genSalt(10)
+      .then(salt => bcrypt.hash(seedUser.password, salt))
+      .then(hash => User.create({
+        name: seedUser.name,
+        email: seedUser.email,
+        password: hash
+      }))
+    .then(user => {
+      const userId = user._id
+      const restaurants = restaurantList.filter(restaurant => {
+        owned.includes(restaurant.id)
       })
+      restaurants.forEach(restaurant => {
+        restaurant.userId = userId
+      })
+      return Restaurant.create(restaurants)
+    })
   }))
     .then(() => {
-    console.log('Seeder have been created!')
-    process.exit()
+      console.log('Seeder have been created!')
+      process.exit()
     })
 })
