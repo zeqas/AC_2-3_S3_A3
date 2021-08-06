@@ -16,7 +16,7 @@ const usePassport = require('./config/passport')
 require('./config/mongoose')
 
 const app = express()
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 3000
 
 app.engine('hbs', exphbs({ 
   defaultLayout: 'main', 
@@ -53,17 +53,3 @@ app.use(routes)
 app.listen(PORT, () => {
   console.log(`Express is listening on localhost:${PORT}`)
 })
-
-
-const SEED_USERS = [
-  {
-    name: 'user1',
-    email: 'user1@example.com',
-    password: '12345678',
-  },
-  {
-    name: 'user2',
-    email: 'user2@example.com',
-    password: '12345678',
-  }
-]
