@@ -38,9 +38,10 @@ db.once('open', () => {
       }))
     .then(user => {
       const userId = user._id
-      const restaurants = restaurantList.filter(restaurant => {
-        owned.includes(restaurant.id)
-      })
+      const restaurants = restaurantList.filter(restaurant => 
+        seedUser.ownedRestaurants.includes(restaurant.id)
+      )
+      
       restaurants.forEach(restaurant => {
         restaurant.userId = userId
       })

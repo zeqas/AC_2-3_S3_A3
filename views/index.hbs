@@ -34,7 +34,7 @@
 <div class="container mt-5">
   <div class="row">
 
-    {{#each restaurant}}
+    {{#each restaurants}}
     <div class="col-12 col-md-6 col-lg-4 mb-4">
       <div class="card mb-3">
         <a href="/restaurants/{{ this._id }}" class="text-secondary">
@@ -86,7 +86,6 @@
       </div>
     </div>
     {{/each}}
-
-    <a href="/restaurants/new" class="btn btn-primary mb-3">Create</a>
+    
   </div>
 </div>
